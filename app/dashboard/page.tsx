@@ -1,8 +1,6 @@
-"use client";
-
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import UploadForm from "./upload-form";
+import UploadForm from "./UploadForm";
 
 export default function Dashboard() {
   return (

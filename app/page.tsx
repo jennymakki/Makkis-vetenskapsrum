@@ -1,5 +1,3 @@
-"use client";
-
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Link from "next/link";
@@ -45,13 +43,13 @@ export default function Home() {
         {/* Om mig */}
         <section className="mb-12 flex flex-col md:flex-row items-center gap-6">
           <img
-            src="/images/Fares.png"
+            src="/Fares.png"
             alt="Fares"
             className="w-48 h-48 rounded-full object-cover shadow-lg"
           />
           <div>
-            <h3 className="text-xl font-semibold mb-2 text-gray-800">Om mig</h3>
-            <p className="text-[#3B5D4A] p-4 rounded-xl shadow-lg">
+            <h3 className="text-xl font-semibold mb-2 text-center text-gray-800">Om mig</h3>
+            <p className="text-[#000000] p-4 rounded-xl shadow-lg">
               Hej! Fares heter jag och undervisar i biologi, kemi, och naturkunskap.
               Här kan du lära dig mer om världen omkring dig och vad naturen har att erbjuda!
             </p>

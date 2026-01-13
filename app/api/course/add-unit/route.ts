@@ -7,19 +7,42 @@ export async function POST(req: Request) {
   const { subject, course, unitName } = await req.json();
 
   if (!subject || !course || !unitName) {
-    return new Response(JSON.stringify({ error: "Missing data" }), { status: 400 });
+    return new Response(
+      JSON.stringify({ error: "Missing subject, course or unitName" }),
+      { status: 400 }
+    );
+  }
+
+  const cleanUnit = unitName.trim();
+
+  if (!cleanUnit) {
+    return new Response(
+      JSON.stringify({ error: "Unit name empty" }),
+      { status: 400 }
+    );
   }
 
   let courseDoc = await Course.findOne({ subject, course });
 
   if (!courseDoc) {
-    courseDoc = new Course({ subject, course, units: [] });
+    courseDoc = new Course({
+      subject,
+      course,
+      units: [],
+    });
   }
 
-  if (!courseDoc.units.find((u: { name: string }) => u.name === unitName)) {
-    courseDoc.units.push({ name: unitName, files: [] });
+  const exists = courseDoc.units?.some(
+    (u: { name: string }) => u.name === cleanUnit
+  );
+
+  if (!exists) {
+    courseDoc.units.push({ name: cleanUnit, files: [] });
     await courseDoc.save();
   }
 
-  return new Response(JSON.stringify({ success: true }), { status: 200 });
+  return new Response(
+    JSON.stringify({ success: true, unit: cleanUnit }),
+    { status: 200 }
+  );
 }
