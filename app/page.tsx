@@ -1,13 +1,14 @@
+import { Leaf, Dna, FlaskConical, Atom } from "lucide-react";
+import Link from "next/link";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Link from "next/link";
 
 export default function Home() {
   const subjects = [
-    { name: "Naturkunskap", href: "/naturkunskap", icon: "leaf", color: "bg-[#4CAF50]" },
-    { name: "Biologi", href: "/biologi", icon: "dna", color: "bg-[#42A5F5]" },
-    { name: "Kemi", href: "/kemi", icon: "flask-conical", color: "bg-[#FF6F3C]" },
-    { name: "Naturvetenskaplig Specialisering", href: "/naturvetenskapligspecialisering", icon: "atom", color: "bg-[#EDE623]" },
+    { name: "Naturkunskap", href: "/naturkunskap", icon: <Leaf />, color: "bg-[#4CAF50]" },
+    { name: "Biologi", href: "/biologi", icon: <Dna />, color: "bg-[#42A5F5]" },
+    { name: "Kemi", href: "/kemi", icon: <FlaskConical />, color: "bg-[#FF6F3C]" },
+    { name: "Naturvetenskaplig Specialisering", href: "/naturvetenskapligspecialisering", icon: <Atom />, color: "bg-[#EDE623]" },
   ];
 
   return (
@@ -31,10 +32,10 @@ export default function Home() {
               <Link
                 key={subject.name}
                 href={subject.href}
-                className={`${subject.color} flex items-center justify-center gap-2 p-4 rounded-xl shadow-md text-white font-semibold hover:brightness-110 transition`}
+                className={`${subject.color} flex items-center justify-center gap-2 p-4 rounded-xl shadow-md text-black font-semibold hover:brightness-110 transition`}
               >
+                {subject.icon}
                 {subject.name}
-                <i data-lucide={subject.icon}></i>
               </Link>
             ))}
           </div>
@@ -58,14 +59,6 @@ export default function Home() {
       </main>
 
       <Footer />
-
-      {/* Lucide icons */}
-      <script src="/javascripts/main.js"></script>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `lucide.createIcons();`,
-        }}
-      />
     </div>
   );
 }

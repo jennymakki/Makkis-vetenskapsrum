@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { schoolStructure } from "@/lib/school-structure";
 
-export default function NaturkunskapPage() {
-  const courses = Object.keys(schoolStructure.Naturkunskap);
+export default function KemiPage() {
+  const courses = Object.keys(schoolStructure.Kemi);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f0f0f0]">
@@ -12,8 +12,8 @@ export default function NaturkunskapPage() {
 
       <main className="flex-1 p-8 max-w-5xl mx-auto">
         {/* Intro */}
-        <section className="mb-12 text-center bg-[#4CAF50] text-white p-8 rounded-2xl shadow-lg max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold mb-4">Naturkunskap</h1>
+        <section className="mb-12 text-center bg-[#FF6F3C] text-white p-8 rounded-2xl shadow-lg max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold mb-4">Kemi</h1>
           <p className="text-lg">
             Välj kurs för att utforska lektionsmaterial, experiment och uppgifter.
           </p>
@@ -29,10 +29,10 @@ export default function NaturkunskapPage() {
             {courses.map((course) => (
               <Link
                 key={course}
-                href={`/naturkunskap/${encodeURIComponent(course)}`}
+                href={`/kemi/${encodeURIComponent(course)}`}
                 className="bg-white flex flex-col items-center justify-center p-6 rounded-2xl shadow-lg
-                           text-[#4CAF50] font-semibold text-lg hover:shadow-2xl hover:-translate-y-1 transition
-                           border-2 border-transparent hover:border-[#4CAF50]"
+                           text-[#FF6F3C] font-semibold text-lg hover:shadow-2xl hover:-translate-y-1 transition
+                           border-2 border-transparent hover:border-[#FF6F3C]"
               >
                 <h3 className="text-xl font-bold mb-2">{course}</h3>
                 <p className="text-gray-600 text-sm text-center">

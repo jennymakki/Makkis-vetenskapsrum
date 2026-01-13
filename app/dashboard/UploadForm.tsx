@@ -81,7 +81,7 @@ export default function UploadForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto p-6 bg-white rounded-xl shadow-lg">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto p-6 bg-white rounded-xl text-gray-500 shadow-lg">
       {/* Titel */}
       <input
         name="title"
