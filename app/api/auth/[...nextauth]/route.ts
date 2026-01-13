@@ -26,7 +26,8 @@ const handler = NextAuth({
     },
 
     async redirect({ url, baseUrl }) {
-      return "/dashboard";
+      if (url.startsWith(baseUrl)) return url;
+      return baseUrl + "/";
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

@@ -1,22 +1,108 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Header() {
   const { data: session } = useSession();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="bg-[#3B5D4A] text-[#F2F2F2] p-12 flex justify-between items-center">
-      <h1 className="text-2xl font-bold">Makkis Vetenskapsrum</h1>
-      {!session ? (
-        <button
-          onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-          className="bg-white text-[#3B5D4A] px-4 py-2 rounded hover:bg-gray-100 transition"
+    <header className="bg-[#3B5D4A] text-[#F2F2F2] px-6 py-4">
+      <div className="flex items-center justify-between">
+        {/* Clickable title */}
+        <h1
+          onClick={() => router.push("/")}
+          className="text-xl md:text-2xl font-bold cursor-pointer"
         >
-          Logga in som lärare
+          Makkis Vetenskapsrum
+        </h1>
+
+        {/* Desktop menu */}
+        <div className="hidden md:flex items-center gap-4">
+          {!session ? (
+            <button
+              onClick={() => signIn("google", { callbackUrl: "/" })}
+              className="bg-white text-[#3B5D4A] px-4 py-2 rounded hover:bg-gray-100 transition"
+            >
+              Logga in som lärare
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => router.push("/")}
+                className="bg-white text-[#3B5D4A] px-4 py-2 rounded"
+              >
+                Home
+              </button>
+
+              <button
+                onClick={() => router.push("/dashboard")}
+                className="bg-white text-[#3B5D4A] px-4 py-2 rounded"
+              >
+                Dashboard
+              </button>
+
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="border border-white px-4 py-2 rounded hover:bg-white hover:text-[#3B5D4A] transition"
+              >
+                Logga ut
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="md:hidden text-2xl"
+          aria-label="Toggle menu"
+        >
+          ☰
         </button>
-      ) : (
-        <span className="text-sm">Inloggad som {session.user?.email}</span>
+      </div>
+
+      {/* Mobile menu */}
+      {open && (
+        <div className="md:hidden mt-4 flex flex-col gap-3">
+          {!session ? (
+            <button
+              onClick={() => {
+                signIn("google", { callbackUrl: "/" });
+                setOpen(false);
+              }}
+              className="bg-white text-[#3B5D4A] px-4 py-2 rounded"
+            >
+              Logga in som lärare
+            </button>
+          ) : (
+            <>
+
+              <button
+                onClick={() => {
+                  router.push("/dashboard");
+                  setOpen(false);
+                }}
+                className="bg-white text-[#3B5D4A] px-4 py-2 rounded"
+              >
+                Ladda upp material
+              </button>
+
+              <button
+                onClick={() => {
+                  signOut({ callbackUrl: "/" });
+                  setOpen(false);
+                }}
+                className="border border-white px-4 py-2 rounded"
+              >
+                Logga ut
+              </button>
+            </>
+          )}
+        </div>
       )}
     </header>
   );
