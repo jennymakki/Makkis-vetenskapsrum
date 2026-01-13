@@ -5,7 +5,7 @@ import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 
 interface File {
-  _id: string;  // <-- added
+  _id: string;
   name: string;
   url: string;
 }
