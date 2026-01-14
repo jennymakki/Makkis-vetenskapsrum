@@ -1,12 +1,9 @@
 import { connectDB } from "@/lib/db";
 import Material from "@/models/Material";
 import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession();
 
   if (!session || session.user?.role !== "teacher") {
@@ -17,9 +14,8 @@ export async function DELETE(
 
   const deleted = await Material.findByIdAndDelete(params.id);
 
-  if (!deleted) {
-    return new NextResponse("Not found", { status: 404 });
-  }
+  if (!deleted) return new NextResponse("Not found", { status: 404 });
 
   return NextResponse.json({ success: true });
 }
+
