@@ -36,8 +36,12 @@ export default function MaterialList() {
 
   async function deleteMaterial(id: string) {
     if (!confirm("Är du säker på att du vill ta bort materialet?")) return;
-
-    await fetch(`/api/materials/${id}`, { method: "DELETE" });
+  
+    await fetch(`/api/materials/${id}`, {
+      method: "DELETE",
+      credentials: "include", // ✅ här
+    });
+  
     setMaterials((prev) => prev.filter((m) => m._id !== id));
   }
 

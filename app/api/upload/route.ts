@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       .upload_stream(
         {
           folder: "school-cms",
-          resource_type: "raw", // viktigt för pdf/docx
+          resource_type: "auto",
         },
         (err, result) => {
           if (err) reject(err);

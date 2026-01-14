@@ -1,9 +1,10 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 
-const handler = NextAuth({
+// --- Exporterad authOptions ---
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -12,15 +13,13 @@ const handler = NextAuth({
   ],
 
   callbacks: {
+    // --- signIn ---
     async signIn({ user }) {
-      if (user.email !== process.env.TEACHER_EMAIL) {
-        return false;
-      }
+      if (user.email !== process.env.TEACHER_EMAIL) return false;
 
       await connectDB();
 
       const existingUser = await User.findOne({ email: user.email });
-
       if (!existingUser) {
         await User.create({
           name: user.name,
@@ -32,24 +31,25 @@ const handler = NextAuth({
       return true;
     },
 
+    // --- jwt ---
     async jwt({ token, user }) {
       if (user?.email) {
         await connectDB();
         const dbUser = await User.findOne({ email: user.email });
-        if (dbUser) {
-          token.role = dbUser.role;
-        }
+        if (dbUser) token.role = dbUser.role;
       }
       return token;
     },
 
+    // --- session ---
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role as string;
+        session.user.role = token.role;
       }
       return session;
     },
 
+    // --- redirect ---
     async redirect({ url, baseUrl }) {
       if (url.startsWith(baseUrl)) return url;
       return baseUrl + "/";
@@ -57,6 +57,8 @@ const handler = NextAuth({
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
 
+// --- NextAuth handler export ---
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
