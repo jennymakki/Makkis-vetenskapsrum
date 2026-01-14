@@ -3,13 +3,10 @@ import Material from "@/models/Material";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export async function GET() {
-  await connectDB();
-  const materials = await Material.find().sort({ createdAt: -1 });
-  return NextResponse.json(materials);
-}
-
-export async function POST(req: Request) {
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   const session = await getServerSession();
 
   if (!session || session.user?.role !== "teacher") {
@@ -17,8 +14,12 @@ export async function POST(req: Request) {
   }
 
   await connectDB();
-  const body = await req.json();
 
-  const material = await Material.create(body);
-  return NextResponse.json(material);
+  const deleted = await Material.findByIdAndDelete(params.id);
+
+  if (!deleted) {
+    return new NextResponse("Not found", { status: 404 });
+  }
+
+  return NextResponse.json({ success: true });
 }

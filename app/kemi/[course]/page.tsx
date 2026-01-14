@@ -91,7 +91,8 @@ export default async function CoursePage({ params }: Props) {
                       <li key={file._id}>
                         <a
                           href={file.url}
-                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="block bg-[#FF6F3C] text-white px-4 py-2 rounded-lg text-sm font-medium text-center
                                      hover:bg-[#e65c2a] hover:scale-105 transition transform duration-200"
                         >

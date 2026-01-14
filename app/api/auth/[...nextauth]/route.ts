@@ -10,6 +10,7 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+
   callbacks: {
     async signIn({ user }) {
       if (user.email !== process.env.TEACHER_EMAIL) {
@@ -17,12 +18,36 @@ const handler = NextAuth({
       }
 
       await connectDB();
+
       const existingUser = await User.findOne({ email: user.email });
+
       if (!existingUser) {
-        await User.create({ name: user.name, email: user.email });
+        await User.create({
+          name: user.name,
+          email: user.email,
+          role: "teacher",
+        });
       }
 
       return true;
+    },
+
+    async jwt({ token, user }) {
+      if (user?.email) {
+        await connectDB();
+        const dbUser = await User.findOne({ email: user.email });
+        if (dbUser) {
+          token.role = dbUser.role;
+        }
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.role = token.role as string;
+      }
+      return session;
     },
 
     async redirect({ url, baseUrl }) {
@@ -30,6 +55,7 @@ const handler = NextAuth({
       return baseUrl + "/";
     },
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 });
 

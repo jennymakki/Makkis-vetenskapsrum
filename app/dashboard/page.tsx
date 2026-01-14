@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import UploadForm from "./UploadForm";
+import MaterialList from "./MaterialList";
 
 export default function Dashboard() {
   return (
@@ -14,7 +15,8 @@ export default function Dashboard() {
 
         <div className="bg-white p-8 rounded-xl shadow-lg">
           <UploadForm />
-        </div>
+          <MaterialList />
+        </div>        
       </main>
 
       <Footer />
