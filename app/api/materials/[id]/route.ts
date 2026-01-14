@@ -13,7 +13,7 @@ export async function DELETE(
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  await connectDB();
+  await connectDB(); 
 
   const { id } = await context.params;
 
