@@ -31,18 +31,12 @@ export default function Header() {
         </button>
       ) : (
         <>
-          <button
-            onClick={() => router.push("/")}
-            className="bg-white text-[#3B5D4A] px-4 py-2 rounded hover:bg-gray-200 hover:text-[#2a4d37] transition-colors"
-          >
-            Home
-          </button>
 
           <button
             onClick={() => router.push("/dashboard")}
             className="bg-white text-[#3B5D4A] px-4 py-2 rounded hover:bg-gray-200 hover:text-[#2a4d37] transition-colors"
           >
-            Dashboard
+            Ladda upp material
           </button>
 
           <button
